@@ -1,0 +1,58 @@
+2026-11-10 13:00:22 [main] INFO  com.usermanage.data.selenium.BaseTest - Initializing ChromeDriver...
+2026-11-10 13:00:27 [main] INFO  utility.TestListener - Starting test found1
+2026-11-10 13:00:27 [main] INFO  com.usermanage.data.selenium.BaseTest - Naviagting to the page
+2026-11-10 13:00:28 [main] INFO  com.usermanage.data.selenium.BaseTest - Verifying page title after login...
+2026-11-10 13:00:28 [main] INFO  utility.TestListener - passed test found1
+2026-11-10 13:00:28 [main] INFO  com.usermanage.data.selenium.BaseTest - Closing browser session...
+2026-11-10 13:00:29 [main] INFO  com.usermanage.data.selenium.BaseTest - Initializing ChromeDriver...
+2026-11-10 13:00:31 [main] INFO  utility.TestListener - Starting test found
+2026-11-10 13:00:31 [main] INFO  com.usermanage.data.selenium.BaseTest - Naviagting to the page
+2026-11-10 13:00:33 [main] INFO  com.usermanage.data.selenium.BaseTest - Verifying page title after login...
+2026-11-10 13:00:33 [main] INFO  com.usermanage.data.selenium.BaseTest - Closing browser session...
+2026-11-10 13:00:34 [main] INFO  com.usermanage.data.selenium.BaseTest - Initializing ChromeDriver...
+2026-11-10 13:00:35 [main] INFO  utility.TestListener - Starting test found
+2026-11-10 13:00:35 [main] INFO  com.usermanage.data.selenium.BaseTest - Naviagting to the page
+2026-11-10 13:00:37 [main] INFO  com.usermanage.data.selenium.BaseTest - Verifying page title after login...
+2026-11-10 13:00:37 [main] INFO  com.usermanage.data.selenium.BaseTest - Closing browser session...
+2026-11-10 13:00:38 [main] INFO  com.usermanage.data.selenium.BaseTest - Initializing ChromeDriver...
+2026-11-10 13:00:40 [main] INFO  utility.TestListener - Starting test found
+2026-11-10 13:00:40 [main] INFO  com.usermanage.data.selenium.BaseTest - Naviagting to the page
+2026-11-10 13:00:41 [main] INFO  com.usermanage.data.selenium.BaseTest - Verifying page title after login...
+2026-11-10 13:00:41 [main] ERROR utility.TestListener - !!! FAILED TEST: found !!!
+2026-11-10 13:00:41 [main] ERROR utility.TestListener - Failure Exception: 
+java.lang.AssertionError: Intentional mismatch to test screenshot capture expected [Forced Error Title] but found [Swag Labs]
+	at org.testng.Assert.fail(Assert.java:99) ~[org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.Assert.failNotEquals(Assert.java:1037) ~[org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.Assert.assertEqualsImpl(Assert.java:140) ~[org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.Assert.assertEquals(Assert.java:122) ~[org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.Assert.assertEquals(Assert.java:629) ~[org.testng_7.3.0.r202008060316.jar:?]
+	at com.usermanage.data.selenium.Hope.found(Hope.java:35) ~[test-classes/:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64) ~[?:?]
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
+	at java.lang.reflect.Method.invoke(Method.java:564) ~[?:?]
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:132) ~[org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:599) ~[org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.internal.TestInvoker.retryFailed(TestInvoker.java:214) ~[org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.internal.MethodRunner.runInSequence(MethodRunner.java:58) ~[org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.internal.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:822) ~[org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:147) ~[org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146) ~[org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128) ~[org.testng_7.3.0.r202008060316.jar:?]
+	at java.util.ArrayList.forEach(ArrayList.java:1511) [?:?]
+	at org.testng.TestRunner.privateRun(TestRunner.java:764) [org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.TestRunner.run(TestRunner.java:585) [org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:384) [org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:378) [org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:337) [org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.SuiteRunner.run(SuiteRunner.java:286) [org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53) [org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96) [org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1218) [org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1140) [org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.TestNG.runSuites(TestNG.java:1069) [org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.TestNG.run(TestNG.java:1037) [org.testng_7.3.0.r202008060316.jar:?]
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115) [testng-remote.jar:?]
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251) [testng-remote.jar:?]
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77) [testng-remote.jar:?]
+2026-11-10 13:00:42 [main] INFO  com.usermanage.data.selenium.BaseTest - Closing browser session...
