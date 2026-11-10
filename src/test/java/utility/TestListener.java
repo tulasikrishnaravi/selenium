@@ -1,4 +1,5 @@
 package utility;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -11,70 +12,74 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.usermanage.data.selenium.BaseTest;
 
-public class TestListener implements ITestListener{
+public class TestListener implements ITestListener {
 
-	private static final Logger logger= LogManager.getLogger(TestListener.class);
-	
-	
-	// ExtentReports variables
+    private static final Logger logger = LogManager.getLogger(TestListener.class);
+
     private static ExtentReports extent;
     private ExtentTest test;
-	
+
     @Override
     public void onStart(ITestContext context) {
-        // Triggered once before the suite starts to create the HTML file
         extent = ExtentManager.createInstance();
     }
-    
-    
-    
+
     @Override
-	public void onTestStart(ITestResult result) {
-		
-		logger.info("Starting test"+" "+result.getName());
-		test = extent.createTest(result.getName());
-		
-	}
-	
-   @Override 
-   public void onTestSuccess(ITestResult result) {
-		
-		logger.info("passed test"+" "+result.getName());
-		test.log(Status.PASS, "Test Passed Successfully");
-	}
-	
-   @Override 
-   public void onTestFailure(ITestResult result) {
-		
-	   logger.error("!!! FAILED TEST: " + result.getName() + " !!!");
-       logger.error("Failure Exception: ", result.getThrowable());
-       test.fail(result.getThrowable());
-       // 1. Fetch the active test class instance running in memory
-       Object currentClass = result.getInstance();
+    public void onTestStart(ITestResult result) {
+        logger.info("Starting test " + getTestName(result));
+        // CHANGE 1: unique name, so the 3 data-provider rows show separately in the report
+        test = extent.createTest(getTestName(result));
+    }
 
-       // 2. Cast the instance to BaseTest to safely access its WebDriver handle
-       WebDriver driver = ((BaseTest) currentClass).getDriver();
+    @Override
+    public void onTestSuccess(ITestResult result) {
+        logger.info("Passed test " + getTestName(result));
+        test.log(Status.PASS, "Test Passed Successfully");
+        // CHANGE 2: screenshot on pass
+        attachScreenshot(result, "PASS");
+    }
 
-       // 3. Trigger screenshot capture if driver is active
-       if (driver != null) {
-    	// Capture screenshot and get the path
-           String screenshotPath =Utility.captureScreenshot(driver,result.getName());
-           if (screenshotPath != null) {
-               // Attach the image directly to the HTML report
-               test.addScreenCaptureFromPath(screenshotPath);
-           }
-       } else {
-           logger.warn("Unable to capture screenshot: WebDriver instance was null.");
-       }
-    
-   }
-   
-   @Override
-   public void onFinish(ITestContext context) {
-       // Write everything to the HTML file on disk
-       if (extent != null) {
-           extent.flush();
-       }
-   }
-	
+    @Override
+    public void onTestFailure(ITestResult result) {
+        logger.error("!!! FAILED TEST: " + getTestName(result) + " !!!");
+        logger.error("Failure Exception: ", result.getThrowable());
+        test.fail(result.getThrowable());
+        attachScreenshot(result, "FAIL");
+    }
+
+    @Override
+    public void onFinish(ITestContext context) {
+        if (extent != null) {
+            extent.flush();
+        }
+    }
+
+    // CHANGE 3: one shared helper for pass and fail
+    private void attachScreenshot(ITestResult result, String status) {
+        Object instance = result.getInstance();
+        if (!(instance instanceof BaseTest)) {
+            return;
+        }
+        WebDriver driver = ((BaseTest) instance).getDriver();
+        if (driver == null) {
+            logger.warn("Unable to capture screenshot: WebDriver instance was null.");
+            return;
+        }
+        String shotName = getTestName(result).replaceAll("[^a-zA-Z0-9_]", "") + "_" + status;
+        String screenshotPath = Utility.captureScreenshot(driver, shotName);
+        if (screenshotPath != null) {
+            test.addScreenCaptureFromPath(screenshotPath);
+        }
+    }
+
+    // Builds "loginTest_standard_user_Success" from the data-provider row
+    private String getTestName(ITestResult result) {
+        Object[] params = result.getParameters();
+        if (params != null && params.length >= 2) {
+            // first column = username, last column = expected status
+            // (the password column is skipped so it never ends up in file names or reports)
+            return result.getName() + "_" + params[0] + "_" + params[params.length - 1];
+        }
+        return result.getName();
+    }
 }
