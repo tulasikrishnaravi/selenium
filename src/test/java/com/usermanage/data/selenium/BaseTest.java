@@ -9,26 +9,30 @@ import org.testng.annotations.BeforeMethod;
 
 public class BaseTest {
 
-    protected WebDriver driver;
+    // one WebDriver slot per thread; static final so there is a single holder shared by all tests
+    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     public static final Logger logger = LogManager.getLogger(BaseTest.class);
 
     @BeforeMethod
     public void setUp() {
         logger.info("Initializing ChromeDriver...");
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        WebDriver webDriver = new ChromeDriver();
+        webDriver.manage().window().maximize();
+        driver.set(webDriver);                 // store this thread's driver
     }
 
-    // Expose driver instance to TestListener via reflection/casting
+    // used by tests, page objects and TestListener
     public WebDriver getDriver() {
-        return driver;
+        return driver.get();                   // returns the current thread's driver
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
-        if (driver != null) {
+        WebDriver webDriver = driver.get();
+        if (webDriver != null) {
             logger.info("Closing browser session...");
-            driver.quit();
+            webDriver.quit();
         }
+        driver.remove();                       // clear the slot so the thread doesn't keep a dead driver
     }
 }

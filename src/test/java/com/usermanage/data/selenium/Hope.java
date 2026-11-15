@@ -1,24 +1,15 @@
 package com.usermanage.data.selenium;
 
-import java.sql.Driver;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import pages.LoginPage;
 
-public class Hope extends BaseTest{
+public class Hope extends BaseTest {
 
-	
-	
-	@DataProvider(name = "loginCredentials")
+    @DataProvider(name = "loginCredentials", parallel = true)
     public Object[][] getLoginData() {
         return new Object[][] {
             // Username, Password, Expected Status
@@ -27,79 +18,64 @@ public class Hope extends BaseTest{
             {"standard_user", "wrong_password", "Invalid"}     // Row 3: Bad Password
         };
     }
-	
-	@Test(priority = 3, dataProvider = "loginCredentials")
-	public void loginTest(String username, String password, String expectedStatus) {
-	    logger.info("Testing login for user: " + username);
-	    driver.get(ConfigReader.getProperty("url"));
 
-	    LoginPage loginpage = new LoginPage(driver);
-	    loginpage.setUsername(username);
-	    loginpage.setPassword(password);
-	    loginpage.clickLoginButton();
+    @Test(priority = 3, dataProvider = "loginCredentials")
+    public void loginTest(String username, String password, String expectedStatus) {
+        logger.info("Testing login for user: " + username);
+        getDriver().get(ConfigReader.getProperty("url"));
 
-	    switch (expectedStatus) {
-	        case "Success":
-	            Assert.assertTrue(driver.getCurrentUrl().contains("inventory.html"),
-	                    "Valid user should reach the inventory page");
-	            break;
+        LoginPage loginpage = new LoginPage(getDriver());
+        loginpage.setUsername(username);
+        loginpage.setPassword(password);
+        loginpage.clickLoginButton();
 
-	        case "Locked":
-	            String lockedMsg = driver.findElement(By.cssSelector("[data-test='error']")).getText();
-	            Assert.assertTrue(lockedMsg.contains("locked out"), "Unexpected message: " + lockedMsg);
-	            break;
+        switch (expectedStatus) {
+            case "Success":
+                Assert.assertTrue(getDriver().getCurrentUrl().contains("inventory.html"),
+                        "Valid user should reach the inventory page");
+                break;
 
-	        case "Invalid":
-	            String invalidMsg = driver.findElement(By.cssSelector("[data-test='error']")).getText();
-	            Assert.assertTrue(invalidMsg.contains("do not match"), "Unexpected message: " + invalidMsg);
-	            break;
-	    }
-	}
-	
-	
-@Test(priority=2)	
-public void found() {                     // by using testng we have ran directly and triggered the browswer and url.
-		logger.info("Naviagting to the page");
-		driver.get(ConfigReader.getProperty("url"));   // to open the link now
-		LoginPage loginpage=new LoginPage(driver);
-		loginpage.setUsername("standard_user");
-		loginpage.setPassword( "secret_sauce");
-		loginpage.clickLoginButton();
-        
-		
-		// 2. Capture the actual browser state
+            case "Locked":
+                String lockedMsg = getDriver().findElement(By.cssSelector("[data-test='error']")).getText();
+                Assert.assertTrue(lockedMsg.contains("locked out"), "Unexpected message: " + lockedMsg);
+                break;
+
+            case "Invalid":
+                String invalidMsg = getDriver().findElement(By.cssSelector("[data-test='error']")).getText();
+                Assert.assertTrue(invalidMsg.contains("do not match"), "Unexpected message: " + invalidMsg);
+                break;
+        }
+    }
+
+    @Test(priority = 2)
+    public void found() {
+        logger.info("Navigating to the page");
+        getDriver().get(ConfigReader.getProperty("url"));
+        LoginPage loginpage = new LoginPage(getDriver());
+        loginpage.setUsername("standard_user");
+        loginpage.setPassword("secret_sauce");
+        loginpage.clickLoginButton();
+
         logger.info("Verifying page title after login...");
-        String actualTitle = driver.getTitle();
-        
-     // 3. Force a failure to trigger onTestFailure() in your listener
-        // The actual title is likely "Swag Labs", so expecting "Forced Error Title" will fail the test.
+        String actualTitle = getDriver().getTitle();
+
+        // Forced failure to test screenshot capture. Remove it when you're done testing.
         Assert.assertEquals(actualTitle, "Forced Error Title", "Intentional mismatch to test screenshot capture");
-        //Assert.assertEquals(actualTitle, "Swag Labs");		
-	}
+        // Assert.assertEquals(actualTitle, "Swag Labs");
+    }
 
-@Test(priority=1)		
-public void found1() {                     // by using testng we have ran directly and triggered the browswer and url.
-		logger.info("Naviagting to the page");
-		driver.get(ConfigReader.getProperty("url"));   // to open the link now
-		LoginPage loginpage=new LoginPage(driver);
-		loginpage.setUsername("standard_user");
-		loginpage.setPassword( "secret_sauce");
-		loginpage.clickLoginButton();
-        
-		
-		// 2. Capture the actual browser state
+    @Test(priority = 1)
+    public void found1() {
+        logger.info("Navigating to the page");
+        getDriver().get(ConfigReader.getProperty("url"));
+        LoginPage loginpage = new LoginPage(getDriver());
+        loginpage.setUsername("standard_user");
+        loginpage.setPassword("secret_sauce");
+        loginpage.clickLoginButton();
+
         logger.info("Verifying page title after login...");
-        String actualTitle = driver.getTitle();
-        
-     // 3. Force a failure to trigger onTestFailure() in your listener
-        // The actual title is likely "Swag Labs", so expecting "Forced Error Title" will fail the test.
-        //Assert.assertEquals(actualTitle, "Forced Error Title", "Intentional mismatch to test screenshot capture");
-        Assert.assertEquals(actualTitle, "Swag Labs");		
-	}
-/*
-public static void main(String args[]) {  // ran using main method , now i want to run using testng
-	Hope hope=new Hope();
-	hope.found();
-}
-*/
+        String actualTitle = getDriver().getTitle();
+
+        Assert.assertEquals(actualTitle, "Swag Labs");
+    }
 }
